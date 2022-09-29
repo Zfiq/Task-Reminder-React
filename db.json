@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "text": "zf",
+      "day": "today",
+      "reminder": false,
+      "id": 1
+    },
+    {
+      "text": "doctor",
+      "day": "Wed",
+      "reminder": false,
+      "id": 3
+    },
+    {
+      "text": "Another tutorial",
+      "day": "soon as possible",
+      "reminder": true,
+      "id": 4
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+import {Link} from 'react-router-dom' // To stop loading the page by using link instead <a> tag
+import React from 'react'
+
+const About = () => {
+    return (
+        <div>
+            <h4>Version 1.0.0</h4>
+            <Link to="/">Go Back</Link>
+        </div>
+    )
+}
+
+export default About
