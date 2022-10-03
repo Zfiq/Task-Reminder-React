@@ -3,112 +3,91 @@ import Tasks from './components/Tasks';
 import AddTask from './components/AddTask';
 import About from './components/About';
 import Footer from './components/Footer';
-import { useState, useEffect } from 'react'; // useEffect is working as http send request doGET or POST
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react'; // useEffect is working as http send request doGET or POST
 
 function App() {
-	const [tasks, setTasks] = useState([]);
-
-	useEffect(() => {
-		// UseEffect that will run on every render.
-
-		fetchTasks();
-
-		const getTasks = async () => {
-			// Read all from db.json file then fetch tasks
-			const tastsFromServer = await fetchTasks();
-
-			setTasks(tastsFromServer);
-		};
-		getTasks();
-	}, []); // passin just an empty array for now this is for when any changes happens
-
-	// Fetch tasks
-	const fetchTasks = async () => {
-		const res = await fetch('http://localhost:5000/tasks');
-		const data = await res.json(); // Once resolve  get data object
-
-		return data;
-	};
-
-	// Fetch task for an update
-	const fetchTask = async (id) => {
-		const res = await fetch(`http://localhost:5000/tasks/${id}`);
-		const data = await res.json(); // Once resolve  get data object
-
-		return data;
-	};
-
-	// Add Task
-	// Hide form by default
+	// Hide form by default passing true or false
 	const [showAddTask, setShowAddTask] = useState(false); // { showAddTask && } short for if true do thi else default applied this to AddTask component
 
-	const addTask = async (task) => {
-		const res = await fetch('http://localhost:5000/tasks', {
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json',
-			},
-			body: JSON.stringify(task),
-		});
-
-		const data = await res.json(); // get the data via http in json format
-		setTasks([...tasks, data]); // useing spread operater to add new task to an existing data.
-
+	const [tasks, setTasks] = useState([
+		{
+			text: 'Shopping',
+			day: 'Today',
+			reminder: true,
+			id: 1,
+		},
+		{
+			text: 'Doctor Appointment',
+			day: 'Wed',
+			reminder: false,
+			id: 3,
+		},
+		{
+			text: 'Another Meeting',
+			day: 'SUNDAY',
+			reminder: false,
+			id: 4,
+		},
+	]);
+	// Add Task
+	const addTask = (task) => {
 		// Generate random id              // Only in UI without json server
-		// const id = Math.floor(Math.random() * 10000) + 1;
-		// // pass id in new task
-		// const newTask = { id, ...task };
-		// setTasks([...tasks, newTask]);
+		const id = Math.floor(Math.random() * 10000) + 1;
+		// pass id in new task
+		const newTask = { id, ...task };
+		setTasks([...tasks, newTask]);
 	};
 
-	// Delete  task
-
-	const deleteTask = async (id) => {
-		await fetch(`http://localhost:5000/tasks/${id}`, {
-			method: 'DELETE',
-		});
-
+	// Delete Task
+	const deleteTask = (id) => {
 		setTasks(tasks.filter((task) => task.id !== id));
+		console.log(id);
 	};
-	// Toggle Reminder on double click it will turn green as on then double click it should show no color which means off.
 
-	const toggleReminder = async (id) => {
-		const taskToToggle = await fetchTask(id);
-		const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
-		const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-			method: 'PUT',
-			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify(updTask),
-		});
-		const data = await res.json();
-
-		setTasks(tasks.map((task) => (task.id === id ? { ...task, reminder: data.reminder } : task)));
+	// Toggle Reminder
+	const toggleReminder = (id) => {
+		console.log(id);
+		setTasks(
+			tasks.map((task) =>
+				task.id === id
+					? // i want a copy or sperad across all of the task values i want to change the reminder
+					  { ...task, reminder: !task.reminder }
+					: task
+			)
+		);
 	};
 
 	return (
 		<BrowserRouter>
 			<div className="container">
-				{/* When onAdd prop is fired we will take that setShowAddTask and set it to opposite whatever the value is by calling showAddTask which is bolean */}
 				<Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
 
-				{/* Using route to making the main home page separate from other 
-components this step should be done 
-at the very begining of the project  */}
-				<Routes>
-					<Route
-						path="/"
-						element={
-							<>
-								{showAddTask && <AddTask onAdd={addTask} />}
+
+
+			
+
+
+				{showAddTask && <AddTask onAdd={addTask} />}
 								{tasks.length > 0 ? (
 									<Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
 								) : (
-									'No Tasks To Show'
+									'No Tasks to show'
 								)}
+
+
+
+				<Routes>
+					<Route
+						path="/"
+						exact
+						element={
+							<>
+						
 							</>
 						}
 					/>
+
 					<Route path="/about" element={<About />} />
 				</Routes>
 
