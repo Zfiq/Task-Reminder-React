@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Task-Reminder-React/static/css/main.6f972d67.css",
+    "main.js": "/Task-Reminder-React/static/js/main.b0055db2.js",
+    "static/js/787.a5a00b74.chunk.js": "/Task-Reminder-React/static/js/787.a5a00b74.chunk.js",
+    "index.html": "/Task-Reminder-React/index.html",
+    "main.6f972d67.css.map": "/Task-Reminder-React/static/css/main.6f972d67.css.map",
+    "main.b0055db2.js.map": "/Task-Reminder-React/static/js/main.b0055db2.js.map",
+    "787.a5a00b74.chunk.js.map": "/Task-Reminder-React/static/js/787.a5a00b74.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6f972d67.css",
+    "static/js/main.b0055db2.js"
+  ]
+}
